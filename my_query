@@ -1,0 +1,104 @@
+SELECT LastName,
+       FirstName,
+       City
+  FROM customers
+ WHERE City = 'Prague';
+ -- 1 Show the last name and first name of the clients from the city of Prague ?
+
+SELECT LastName,
+       FirstName
+  FROM customers
+ WHERE FirstName LIKE 'M%' OR 
+       FirstName LIKE '%ch%';
+ -- 2 Show the last name and first name of clients whose first name begins with the letter M or Contains the character "ch"?
+
+SELECT Name,
+       Bytes / 1000000 AS Mb
+  FROM tracks;
+ -- 3 Show the name and size of music tracks in megabytes ?
+
+SELECT LastName,
+       FirstName,
+       HireDate,
+       City
+  FROM employees
+ WHERE (HireDate >= date('2002-01-01') AND 
+        HireDate <= date('2002-12-31') ) AND 
+       City = 'Calgary';
+ -- 4 What are the first and last names of the campaign staff hired in 2002 from the city of Calgary ?
+
+SELECT LastName,
+       FirstName,
+       HireDate - BirthDate AS Age
+  FROM employees
+ WHERE Age >= 40;
+ -- 5 Show the first and last name of the campaign staff hired at the age of 40 and above?
+
+SELECT *
+  FROM customers
+ WHERE Country = 'USA' AND 
+       Fax IS NULL;
+ -- 6 Show American buyers without a fax?
+
+SELECT ShipCity
+  FROM sales
+ WHERE ShipCountry = 'Canada' AND 
+       (strftime('%m', SalesDate) = '08' OR 
+        strftime('%m', SalesDate) = '09');
+ -- 7 Show the Canadian cities in which sales are made in August and September?
+
+SELECT Email
+  FROM customers
+ WHERE Email LIKE '%gmail.com';
+ -- 8 Show email addresses of clients from the domain gmail.com ?
+
+SELECT *,
+       DATE('now') - HireDate AS WorckedYears
+  FROM employees
+ WHERE WorckYears >= 18;
+ -- 9 Show employees who have been working in the campaign for 18 years or more?
+
+SELECT DISTINCT Title
+  FROM employees
+ ORDER BY Title ASC;
+ -- 10 Show in alphabetical order all positions in the campaign ?
+
+SELECT LastName,
+       FirstName,
+       DATE('now') - Age AS BirthYear
+  FROM customers
+ ORDER BY LastName ASC,
+          FirstName ASC,
+          BirthYear ASC;
+ -- 11 Show in alphabetical order Surname, Name and year of birth of buyers ?
+
+SELECT Milliseconds / 1000 AS Seconds
+  FROM tracks
+ ORDER BY Milliseconds ASC
+ LIMIT 1;
+ -- 12 How many seconds is the shortest song?
+
+SELECT Name,
+       Milliseconds / 1000 AS Seconds
+  FROM tracks
+ ORDER BY Milliseconds ASC
+ LIMIT 1;
+ -- 13 Show the title and duration in seconds of the shortest song
+
+SELECT Country,
+       avg(Age) AS AverageAge
+  FROM customers
+ GROUP BY Country;
+ -- 14 Show the average customer age for each country ?
+
+SELECT LastName
+  FROM employees
+ WHERE strftime('%m', HireDate) = '10';
+ -- 15 Show the names of employees hired in October?
+
+SELECT LastName
+  FROM employees
+ ORDER BY LastName ASC,
+          DATE('now') - HireDate ASC
+ LIMIT 1
+ /* 16 Show the last name of the oldest employee in the campaign ? */;
