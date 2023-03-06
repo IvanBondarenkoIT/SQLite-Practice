@@ -100,5 +100,29 @@ SELECT LastName
   FROM employees
  ORDER BY LastName ASC,
           DATE('now') - HireDate ASC
- LIMIT 1
- /* 16 Show the last name of the oldest employee in the campaign ? */;
+ LIMIT 1;
+ -- 16 Show the last name of the oldest employee in the campaign ?
+ 
+ SELECT FirstName,
+        LastName,
+        (
+            SELECT count( * ) 
+              FROM sales
+             WHERE sales.CustomerId = customers.CustomerId AND 
+                   strftime('%Y', SalesDate) = '2009'
+        )
+        AS count_sales
+   FROM customers
+  ORDER BY count_sales DESC;
+
+SELECT FirstName,
+       LastName,
+       count(s.CustomerId) AS count_sales
+  FROM customers AS c
+       LEFT JOIN
+       sales AS s ON s.CustomerId = c.CustomerId AND 
+                     strftime('%Y', SalesDate) = '2009'
+ GROUP BY c.FirstName,
+          c.LastName
+ ORDER BY count_sales DESC;
+ -- 17 How many purchases did each customer make in 2009? Full Name Quantity
