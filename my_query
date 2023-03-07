@@ -144,3 +144,16 @@ SELECT FirstName,
   FROM customers AS c
  ORDER BY sales_summ DESC;
  --
+ SELECT LastName,
+       FirstName,
+       ifnull(sum(UnitPrice * Quantity), 0) AS sales_summ
+  FROM customers AS c
+       LEFT JOIN
+       sales AS s ON s.customerId = c.customerId
+       LEFT JOIN
+       sales_items AS si ON si.salesid = s.salesid AND 
+                            si.TrackId = 1
+ GROUP BY c.CustomerId,
+          LastName,
+          FirstName
+ ORDER BY sales_summ DESC;
